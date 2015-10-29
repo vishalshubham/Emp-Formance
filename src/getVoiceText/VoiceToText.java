@@ -33,7 +33,8 @@ public class VoiceToText extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		RestCall rCall = new RestCall(email);
-		String jobId = rCall.setVoice("2.mp3");
+		String jobId = rCall.setVoice(email + ".mp3");
+		rCall.setJobId(jobId);
 		
 		try {
 			Thread.sleep(20000);
@@ -42,7 +43,7 @@ public class VoiceToText extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		String resultText = rCall.getText();
+		String resultText = rCall.getText(jobId);
 
 		out.println("<html>");
 		out.println("Email is: " + email);

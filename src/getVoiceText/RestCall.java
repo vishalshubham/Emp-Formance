@@ -11,16 +11,21 @@ public class RestCall {
 	
 	String email = "";
 	String date = "";
+	String jobId = "";
 	
 	public RestCall(String email/*, String date*/){
 		this.email = email;
 		/*this.date = date;*/
 	}
 	
+	public void setJobId(String jobId){
+		this.jobId = jobId;
+	}
+	
 	public String setVoice(String location){
 		StringBuilder sb = new StringBuilder();
 		try{
-			URL url = new URL("https://api.havenondemand.com/1/api/async/recognizespeech/v1?apikey=8ba77a61-01ec-4e1b-8fac-f963f95a0afe&file=" + location);
+			URL url = new URL("https://api.havenondemand.com/1/api/async/recognizespeech/v1?apikey=8ba77a61-01ec-4e1b-8fac-f963f95a0afe&file=/voice/" + location);
 	        
 	        //make connection
 	        URLConnection urlc = url.openConnection();
@@ -41,13 +46,19 @@ public class RestCall {
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		return sb.toString();
+		String str = sb.toString().substring(sb.toString().indexOf("\"")+1);
+		str = str.substring(str.indexOf("\"")+1);
+		str = str.substring(str.indexOf("\"")+1);
+		
+		str = str.substring(0, str.indexOf("\""));
+		
+		return str;
 	}
 
-	public String getText() {
+	public String getText(String jobIdd) {
 		StringBuilder sb = new StringBuilder();
 		try{
-			URL url = new URL("https://api.havenondemand.com/1/job/result/usw3p_4bbe5035-6776-47b1-ae99-acd6fca1d51f?apikey=bcfd480a-4c39-4f36-88b7-0989ad6c703c");
+			URL url = new URL("https://api.havenondemand.com/1/job/result/" + jobIdd + "?apikey=8ba77a61-01ec-4e1b-8fac-f963f95a0afe");
 	        
 	        //make connection
 	        URLConnection urlc = url.openConnection();
